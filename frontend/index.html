@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Data Analyzer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <div class="logo">
+                <img src="/static/images/logo.svg" alt="Smart Data Analyzer">
+                <h1>Smart Data Analyzer</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="active"><a href="#upload-section"><i class="fas fa-upload"></i> Upload</a></li>
+                    <li><a href="#analysis-section"><i class="fas fa-chart-bar"></i> Analysis</a></li>
+                    <li><a href="#insights-section"><i class="fas fa-lightbulb"></i> Insights</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section id="upload-section" class="section active">
+                <div class="upload-container">
+                    <div class="upload-box">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <h2>Upload Your Data File</h2>
+                        <p>Supported formats: CSV, Excel (.xlsx) - Max 50MB</p>
+                        <form id="upload-form" class="dropzone">
+                            <input type="file" id="file-input" accept=".csv,.xlsx" style="display: none;">
+                            <label for="file-input" class="upload-btn">
+                                <i class="fas fa-folder-open"></i> Browse Files
+                            </label>
+                            <div class="file-info" id="file-info">No file selected</div>
+                            
+                            <!-- Progress Bar -->
+                            <div class="upload-progress" id="upload-progress" style="display: none;">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progress-fill"></div>
+                                </div>
+                                <div class="progress-text" id="progress-text">0%</div>
+                            </div>
+                            
+                            <button type="submit" class="analyze-btn" id="upload-btn" disabled>
+                                <i class="fas fa-rocket"></i> Upload & Analyze
+                            </button>
+                        </form>
+                    </div>
+                    <div class="file-preview" id="file-preview">
+                        <h3>File Preview</h3>
+                        <div class="table-container">
+                            <table id="preview-table">
+                                <thead></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="analysis-section" class="section">
+                <div class="analysis-header">
+                    <h2>Data Analysis</h2>
+                    <div class="column-selector">
+                        <select id="column-select" multiple></select>
+                        <button id="apply-columns" class="btn-primary">Apply</button>
+                    </div>
+                </div>
+
+                <div class="analysis-tabs">
+                    <div class="tab-buttons">
+                       <button class="tab-btn active" data-tab="basic-stats">Numeric</button>
+<button class="tab-btn" data-tab="categorical-stats">Categorical</button>
+<button class="tab-btn" data-tab="text-stats">Text</button>
+<button class="tab-btn" data-tab="datetime-stats">Datetime</button>
+                        <button class="tab-btn" data-tab="outliers">Outliers</button>
+                        <button class="tab-btn" data-tab="correlations">Correlations</button>
+                        <button class="tab-btn" data-tab="histogram">Histogram</button>
+                        <button class="tab-btn" data-tab="scatter">Scatter Plot</button>
+                        <button class="tab-btn" data-tab="data-quality">Data Quality</button>
+                    </div>
+
+                    <div class="tab-content active" id="basic-stats">
+                        <div class="stats-grid" id="basic-stats-content"></div>
+                    </div>
+
+                    <div class="tab-content" id="categorical-stats">
+  <div class="stats-grid" id="categorical-stats-content"></div>
+</div>
+
+<div class="tab-content" id="text-stats">
+  <div class="stats-grid" id="text-stats-content"></div>
+</div>
+
+<div class="tab-content" id="datetime-stats">
+  <div class="stats-grid" id="datetime-stats-content"></div>
+
+                    <div class="tab-content" id="outliers">
+                        <div class="outliers-container" id="outliers-content"></div>
+                    </div>
+
+                    <div class="tab-content" id="correlations">
+                        <div class="correlation-matrix" id="correlation-matrix"></div>
+                        <div class="strong-correlations" id="strong-correlations"></div>
+                    </div>
+
+                    <div class="tab-content" id="histogram">
+                        <div class="chart-container">
+                            <canvas id="histogram-chart"></canvas>
+                        </div>
+                        <div class="histogram-selector">
+                            <select id="histogram-column-select"></select>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="scatter">
+                        <div class="chart-container">
+                            <canvas id="scatter-chart"></canvas>
+                        </div>
+                        <div class="scatter-selector">
+                            <select id="x-axis-select"></select>
+                            <select id="y-axis-select"></select>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="data-quality">
+                        <div class="quality-metrics" id="quality-metrics"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="insights-section" class="section">
+                <div class="insights-header">
+                    <h2>AI-Powered Insights</h2>
+                    <button id="refresh-insights" class="btn-primary">
+                        <i class="fas fa-sync-alt"></i> Generate New Insights
+                    </button>
+                </div>
+
+                <div class="insights-container" id="insights-container"></div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2023 Smart Data Analyzer | Powered by Flask & Mistral AI</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

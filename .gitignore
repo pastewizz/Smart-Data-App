@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Flask/App specific
+backend/uploads/*
+!backend/uploads/.gitkeep
+*.log
+
+# Temp/Duplicate files
+backend/app on hold.py
+backend/app-failed.py
+backend/app-works.py
+backend/data_processor-3..has errors.py
+backend/data_processor1 - works.py
+backend/data_processor2 - works.py
+frontend/index-fails.html
+frontend/static/js/script-works.js
+
+# Nested repositories
+Smart-Data-App/
